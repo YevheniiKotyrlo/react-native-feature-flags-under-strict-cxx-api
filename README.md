@@ -1,16 +1,25 @@
 # react-native-feature-flags-under-strict-cxx-api
 
-![Build](https://github.com/YevheniiKotyrlo/react-native-feature-flags-under-strict-cxx-api/workflows/Pre%20Merge%20Checks/badge.svg)
+`ReproducerApp/cpp/FlagReader.cpp` is a library source that reads five of React Native's feature flags, and
+`ReproducerApp/cpp/FlagOverrides.cpp` an app source that overrides one through
+`ReactNativeFeatureFlagsOverridesOSSExperimental`. `repro.sh` sparse-clones react/react-native at `main` and compiles
+both against its ReactCommon headers, once plain and once with `-DRN_STRICT_API`, the strict C++ API opt-in.
 
-This is your new React Native Reproducer project.
+```sh
+docker run --rm -v "$PWD:/repro:ro" gcc:15 bash /repro/repro.sh
+```
+
+`bash repro.sh` runs it with the `c++` on `PATH` (or `CXX`), and `bash repro.sh <ref>` on another branch or tag. It exits 1
+while a strict compile stops on the private-header `#error`, 0 once both compile under `RN_STRICT_API`, and 2 when a
+step fails.
 
 # Reproducer TODO list
 
 - [x] 1. Create a new reproducer project.
-- [ ] 2. Git clone your repository locally.
-- [ ] 3. Edit the project to reproduce the failure you're seeing.
-- [ ] 4. Push your changes, so that Github Actions can run the CI.
-- [ ] 5. Make sure the repository is public and share the link with the issue you reported.
+- [x] 2. Git clone your repository locally.
+- [x] 3. Edit the project to reproduce the failure you're seeing.
+- [x] 4. Push your changes, so that Github Actions can run the CI.
+- [x] 5. Make sure the repository is public and share the link with the issue you reported.
 
 # How to use this Reproducer
 
